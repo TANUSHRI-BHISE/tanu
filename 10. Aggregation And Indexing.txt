@@ -1,0 +1,105 @@
+
+db.createCollection("books")
+
+
+
+db.books.insertMany([
+  {
+    title: "mongodb basics",
+    description: "Introduction to MongoDB database",
+    author: "john",
+    url: "www.mongodbpress.com",
+    tags: ["mongodb", "database", "nosql"],
+    likes: 1200
+  },
+  {
+    title: "advanced mongodb",
+    description: "Deep dive into MongoDB queries",
+    author: "john",
+    url: "www.mongodbpress.com",
+    tags: ["mongodb", "indexing", "aggregation"],
+    likes: 800
+  },
+  {
+    title: "sql fundamentals",
+    description: "Learn SQL step by step",
+    author: "jane",
+    url: "www.sqlpress.com",
+    tags: ["sql", "database"],
+    likes: 900
+  },
+  {
+    title: "nosql overview",
+    description: "Overview of NoSQL databases",
+    author: "john",
+    url: "www.nosqlworld.com",
+    tags: ["nosql", "overview"],
+    likes: 500
+  },
+  {
+    title: "data analytics with mongodb",
+    description: "Using MongoDB for analytics",
+    author: "john",
+    url: "www.analyticsmongo.com",
+    tags: ["analytics", "mongodb"],
+    likes: 1500
+  }
+])
+
+
+
+db.books.aggregate([
+  { $match: { author: "john" } },
+  { $count: "Number_of_books_by_John" }
+])
+
+
+
+db.books.aggregate([
+  { $match: { author: "john" } },
+  {
+    $group: {
+      _id: "$author",
+      min_likes: { $min: "$likes" },
+      max_likes: { $max: "$likes" }
+    }
+  }
+])
+
+
+
+db.books.aggregate([
+  { $match: { author: "john" } },
+  {
+    $group: {
+      _id: "$author",
+      avg_likes: { $avg: "$likes" }
+    }
+  }
+])
+
+
+
+db.books.aggregate([
+  { $match: { author: "john" } },
+  { $sort: { title: 1 } },
+  {
+    $group: {
+      _id: "$author",
+      first_book: { $first: "$title" },
+      last_book: { $last: "$title" }
+    }
+  }
+])
+
+
+
+db.books.createIndex({ author: 1 })
+
+
+
+db.books.find({ author: "john" })
+
+
+
+db.books.find({ author: "john" }).explain("executionStats")

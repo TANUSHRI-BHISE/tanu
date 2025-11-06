@@ -1,0 +1,42 @@
+
+db.createCollection("orders")
+
+
+
+db.orders.insertMany([
+  { id: "A1", amount: 400, status: "P" },
+  { id: "B1", amount: 300, status: "D" },
+  { id: "A1", amount: 200, status: "F" },
+  { id: "C1", amount: 200, status: "F" },
+  { id: "B1", amount: 700, status: "P" },
+  { id: "B1", amount: 800, status: "P" }
+])
+
+
+print("\n🔹 Sum of 'Pending' (P) amounts for each customer:")
+db.orders.aggregate([
+  { $match: { status: "P" } },
+  { $group: { _id: "$id", total_amount: { $sum: "$amount" } } }
+])
+
+
+
+print("\n🔹 Average amount per customer:")
+db.orders.aggregate([
+  { $group: { _id: "$id", avg_amount: { $avg: "$amount" } } }
+])
+
+
+
+print("\n🔹 Minimum amount per customer:")
+db.orders.aggregate([
+  { $group: { _id: "$id", min_amount: { $min: "$amount" } } }
+])
+
+
+
+print("\n🔹 Maximum 'Failed' (F) amount for each customer:")
+db.orders.aggregate([
+  { $match: { status: "F" } },
+  { $group: { _id: "$id", max_amount: { $max: "$amount" } } }
+])

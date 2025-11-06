@@ -1,0 +1,117 @@
+
+db.createCollection("books")
+
+
+
+db.books.insertOne({
+  title: 'mongodb',
+  description: 'MongoDB CRUD operation',
+  by: 'geeksforgeeks',
+  url: 'www.mongodbpress.com',
+  tags: ['mongodb', 'database', 'NoSQL'],
+  likes: 150
+})
+
+
+db.books.insertOne({
+  title: 'nosql overview',
+  description: 'Introduction to NoSQL',
+  by: 'john',
+  url: 'www.mongodbpress.com',
+  tags: ['nosql', 'database', 'overview'],
+  likes: 1500
+})
+
+
+db.books.insertOne({
+  title: 'mongodb',
+  description: 'Introduction to MongoDB',
+  by: 'john',
+  url: 'www.mongodbpress.com',
+  tags: ['mongodb', 'database', 'NoSQL'],
+  likes: 1200
+})
+
+
+db.books.insertOne({
+  title: 'mongodb',
+  description: 'Advanced MongoDB Concepts',
+  by: 'john',
+  url: 'www.mongodbpress.com',
+  tags: ['mongodb', 'database', 'NoSQL'],
+  likes: 100
+})
+
+
+db.books.insertOne({
+  title: 'SQL basics',
+  description: 'Learn SQL fundamentals',
+  by: 'jane',
+  url: 'www.sqlpress.com',
+  tags: ['sql', 'database', 'query'],
+  likes: 800
+})
+
+
+
+db.books.insertOne({
+  title: 'xyzc',
+  user_name: 'harsh5',
+  comments: 'terror5',
+  description: 'MongoDB is a NoSQL database',
+  by: 'tutorials point5',
+  url: 'http://www.tutorialspoint5.com',
+  tags: ['mongodb5', 'database5', 'NoSQL5'],
+  likes: 1005
+})
+
+
+db.books.find({ title: "mongodb" })
+
+
+db.books.find({
+  $or: [{ title: "mongodb" }, { by: "john" }]
+})
+
+
+db.books.find({
+  $and: [{ title: "mongodb" }, { by: "john" }]
+})
+
+
+
+db.books.find({ likes: { $gt: 150 } })
+
+
+db.books.find({
+  likes: { $gt: 1000 },
+  $or: [{ title: "mongodb" }, { by: "john" }]
+})
+
+
+db.books.updateMany(
+  { title: "mongodb" },
+  { $set: { title: "mongodb overview" } }
+)
+
+
+
+db.books.deleteOne({ title: "nosql overview" })
+
+
+db.books.find({ by: "john" }).limit(2)
+
+
+db.books.find({ by: "john" }).skip(1).limit(1)
+
+
+
+db.books.find().sort({ likes: -1 })
+
+
+
+db.books.updateOne(
+  { title: "TOC" },
+  { $set: { by: "Vivek Kulkarni" } },
+  { upsert: true }
+)
