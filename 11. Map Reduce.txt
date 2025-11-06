@@ -1,0 +1,43 @@
+use collegeDB
+
+
+db.createCollection("students")
+
+
+db.students.insertMany([
+  { roll_no: 1, name: "Ganesh", course: "AI", marks: 85 },
+  { roll_no: 2, name: "Ravi", course: "AI", marks: 90 },
+  { roll_no: 3, name: "Sneha", course: "ML", marks: 78 },
+  { roll_no: 4, name: "Meena", course: "ML", marks: 88 },
+  { roll_no: 5, name: "Raj", course: "DS", marks: 82 }
+])
+
+
+
+var mapFunction = function() {
+  emit(this.course, this.marks)
+}
+
+
+
+var reduceFunction = function(key, values) {
+  return Array.sum(values) / values.length
+}
+
+
+
+db.students.mapReduce(
+  mapFunction,
+  reduceFunction,
+  { out: "avgMarksPerCourse" }
+)
+
+
+
+db.avgMarksPerCourse.find().pretty()
+
+
+
+db.students.aggregate([
+  { $group: { _id: "$course", avgMarks: { $avg: "$marks" } } }
+])

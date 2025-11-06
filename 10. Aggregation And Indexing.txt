@@ -1,0 +1,34 @@
+use collegeDB
+
+
+db.createCollection("students")
+
+
+db.students.insertMany([
+  { roll_no: 1, name: "Ganesh", course: "AI", marks: 85 },
+  { roll_no: 2, name: "Ravi", course: "AI", marks: 90 },
+  { roll_no: 3, name: "Sneha", course: "ML", marks: 78 },
+  { roll_no: 4, name: "Meena", course: "ML", marks: 88 },
+  { roll_no: 5, name: "Raj", course: "DS", marks: 82 }
+])
+
+
+
+db.students.aggregate([
+  { $group: { _id: "$course", avgMarks: { $avg: "$marks" } } }
+])
+
+
+
+db.students.aggregate([
+  { $group: { _id: "$course", totalStudents: { $sum: 1 } } }
+])
+
+
+
+db.students.createIndex({ course: 1 })
+
+
+
+db.students.getIndexes()
+
